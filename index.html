@@ -161,12 +161,12 @@
 
         #name-span {
             display: inline-block;
-            font-size: 1.5em; /* Larger name highlight */
-            font-weight: bold; /* Bolder text */
+            font-size: 1.2em; /* Reduced size for elegance */
+            font-weight: normal; /* Removed bold */
             background: #FFFFFF; /* White background */
-            padding: 2px 8px; /* Padding for separation */
-            border-radius: 5px;
-            box-shadow: 0 0 10px #FFC107; /* Subtle gold glow */
+            padding: 1px 5px; /* Subtle padding */
+            border-radius: 3px;
+            box-shadow: 0 0 5px #FFC107; /* Subtle gold glow */
             animation: colorNeon 3s infinite, gentleZoom 2s infinite alternate;
             /* Removed blink to avoid text fading */
         }
@@ -281,7 +281,7 @@
             #navratri-img { width: 90vw; max-height: 40vh; margin: 10px 0; }
             #landing h1 { font-size: 2em; }
             input, textarea, .gift-button, #share-wa { margin: 8px 0; padding: 10px; font-size: 1.1em; }
-            #name-span { font-size: 1.2em; padding: 1px 6px; }
+            #name-span { font-size: 1em; padding: 1px 4px; }
         }
     </style>
 </head>
@@ -298,7 +298,7 @@
             <input type="text" id="name-input" placeholder="Enter your name">
             <textarea id="msg-input" placeholder="Type your message"></textarea>
             <!-- 🔥🔥 PASTE YOUR AMAZON AFFILIATE LINK BELOW 🔥🔥 -->
-            <a href="https://amzn.to/3KgAfuZ" target="_blank" class="gift-button">🎁 Divine Navratri Gifts 🎁 👇</a>
+            <a href="YOUR_AFFILIATE_LINK" target="_blank" class="gift-button">🎁 Divine Navratri Gifts 🎁 👇</a>
             <button id="share-wa">📱 Share on WhatsApp</button>
         </div>
     </div>
@@ -357,11 +357,12 @@
             }, 1000);
         };
 
-        // WhatsApp share
+        // WhatsApp share (modified to avoid passing prefilled values)
         shareWa.onclick = () => {
             const baseUrl = window.location.origin + window.location.pathname;
-            const shareUrl = `${baseUrl}?name=${encodeURIComponent(name)}&msg=${encodeURIComponent(msg)}`;
-            const shareText = `${name} ki taraf se: ${msg} `;
+            // Share only the base URL without name and msg parameters
+            const shareUrl = baseUrl;
+            const shareText = "Receive Divine Navratri Blessings! Enter your name and message to personalize: ";
             window.open(`https://wa.me/?text=${encodeURIComponent(shareText + shareUrl)}`, '_blank');
         };
 
