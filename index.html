@@ -295,8 +295,8 @@
         <img src="Navratri.gif" alt="Navratri" id="navratri-img">
         <div class="content-container">
             <p id="greeting"></p>
-            <input type="text" id="name-input" placeholder="Enter your name">
-            <textarea id="msg-input" placeholder="Type your message"></textarea>
+            <input type="text" id="name-input" placeholder="Type your Name">
+            <textarea id="msg-input" placeholder="Type your Message"></textarea>
             <!-- 🔥🔥 PASTE YOUR AMAZON AFFILIATE LINK BELOW 🔥🔥 -->
             <a href="YOUR_AFFILIATE_LINK" target="_blank" class="gift-button">🎁 Divine Navratri Gifts 🎁 👇</a>
             <button id="share-wa">📱 Share on WhatsApp</button>
@@ -306,10 +306,10 @@
     <canvas id="canvas"></canvas>
 
     <script>
-        // Parse URL params
+        // Parse URL params (but won't prefill inputs)
         const params = new URLSearchParams(window.location.search);
-        const defaultName = "Someone";
-        const defaultMsg = "aapko Navratri ki shubh kamnayein";
+        const defaultName = "";
+        const defaultMsg = "";
         let name = params.get('name') || defaultName;
         let msg = params.get('msg') || defaultMsg;
 
@@ -328,15 +328,15 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Prefill inputs
-        nameInput.value = name;
-        msgInput.value = msg;
+        // Do not prefill inputs, use placeholders only
+        nameInput.value = "";
+        msgInput.value = "";
 
-        // Update greeting
+        // Update greeting based on user input
         function updateGreeting() {
             name = nameInput.value || defaultName;
             msg = msgInput.value || defaultMsg;
-            greeting.innerHTML = `<span id="name-span">${name}</span> ki taraf se: ${msg}`;
+            greeting.innerHTML = name ? `<span id="name-span">${name}</span> ki taraf se: ${msg}` : "";
         }
         updateGreeting();
 
@@ -357,12 +357,12 @@
             }, 1000);
         };
 
-        // WhatsApp share (modified to avoid passing prefilled values)
+        // WhatsApp share (share base URL only)
         shareWa.onclick = () => {
             const baseUrl = window.location.origin + window.location.pathname;
             // Share only the base URL without name and msg parameters
             const shareUrl = baseUrl;
-            const shareText = "Receive Divine Navratri Blessings! Enter your name and message to personalize: ";
+            const shareText = "Receive Divine Navratri Blessings! Type your Name and Message to personalize: ";
             window.open(`https://wa.me/?text=${encodeURIComponent(shareText + shareUrl)}`, '_blank');
         };
 
