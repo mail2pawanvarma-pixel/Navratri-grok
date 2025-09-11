@@ -306,10 +306,10 @@
     <canvas id="canvas"></canvas>
 
     <script>
-        // Parse URL params (but won't prefill inputs)
+        // Parse URL params
         const params = new URLSearchParams(window.location.search);
-        const defaultName = "";
-        const defaultMsg = "";
+        const defaultName = "Someone";
+        const defaultMsg = "aapko Navratri ki shubh kamnayein";
         let name = params.get('name') || defaultName;
         let msg = params.get('msg') || defaultMsg;
 
@@ -328,17 +328,17 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Do not prefill inputs, use placeholders only
-        nameInput.value = "";
-        msgInput.value = "";
+        // Prefill inputs with URL params or defaults
+        nameInput.value = name;
+        msgInput.value = msg;
 
-        // Update greeting based on user input
+        // Update greeting
         function updateGreeting() {
             name = nameInput.value || defaultName;
             msg = msgInput.value || defaultMsg;
-            greeting.innerHTML = name ? `<span id="name-span">${name}</span> ki taraf se: ${msg}` : "";
+            greeting.innerHTML = `<span id="name-span">${name}</span> ki taraf se: ${msg}`;
         }
-        updateGreeting();
+        updateGreeting(); // Display default greeting on load
 
         // Input listeners
         nameInput.oninput = updateGreeting;
@@ -357,12 +357,13 @@
             }, 1000);
         };
 
-        // WhatsApp share (share base URL only)
+        // WhatsApp share with name and msg parameters
         shareWa.onclick = () => {
             const baseUrl = window.location.origin + window.location.pathname;
-            // Share only the base URL without name and msg parameters
-            const shareUrl = baseUrl;
-            const shareText = "Receive Divine Navratri Blessings! Type your Name and Message to personalize: ";
+            name = nameInput.value || defaultName;
+            msg = msgInput.value || defaultMsg;
+            const shareUrl = `${baseUrl}?name=${encodeURIComponent(name)}&msg=${encodeURIComponent(msg)}`;
+            const shareText = `${name} ki taraf se: ${msg} `;
             window.open(`https://wa.me/?text=${encodeURIComponent(shareText + shareUrl)}`, '_blank');
         };
 
