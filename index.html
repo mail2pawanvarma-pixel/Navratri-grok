@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navratri Celebration</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Georgia', serif; /* Religious, elegant font */
+            color: #600000; /* Darker maroon for better contrast */
+        }
+
+        #landing {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #FF69B4, #FF4040, #FFC107, #C0C0C0, #800000); /* Vibrant pink, red, gold, silver, maroon */
+            background-size: 400% 400%;
+            animation: gradientShift 10s ease infinite, zoom 5s infinite alternate;
+            transition: opacity 1s ease;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes zoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        #landing h1 {
+            font-size: 2.5em;
+            text-align: center;
+            margin: 0 20px;
+            text-shadow: 0 0 15px #FFC107; /* Brighter gold glow */
+            font-family: 'Palatino Linotype', serif;
+        }
+
+        #reveal {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #FFC107; /* Vibrant gold */
+            border: 2px solid #FF69B4; /* Vibrant pink */
+            color: #800000; /* Rich maroon */
+            cursor: pointer;
+            box-shadow: 0 0 15px #FF69B4, 0 0 25px #C0C0C0; /* Enhanced pink and silver glow */
+            animation: glowPulse 2s infinite;
+            border-radius: 10px;
+            font-family: 'Georgia', serif;
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 15px #FF69B4, 0 0 25px #C0C0C0; }
+            50% { box-shadow: 0 0 25px #FF69B4, 0 0 35px #C0C0C0; }
+            100% { box-shadow: 0 0 15px #FF69B4, 0 0 25px #C0C0C0; }
+        }
+
+        #main {
+            position: relative;
+            width: 100vw;
+            min-height: 100vh; /* Allow scrolling */
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: linear-gradient(to bottom, #FFEBEE, #FFF5E1); /* Vibrant pink to light gold */
+            transition: opacity 1s ease;
+            opacity: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        #happy-navratri {
+            font-size: 2.5em;
+            margin: 20px 0 15px;
+            text-shadow: 0 0 15px #FFC107; /* Brighter gold glow */
+            background: linear-gradient(to right, #FF69B4, #FFC107, #C0C0C0); /* Vibrant pink, gold, silver */
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: bgmove 5s linear infinite, discoGlow 2s infinite, blink 1s infinite alternate;
+            font-family: 'Palatino Linotype', serif;
+        }
+
+        @keyframes bgmove {
+            to { background-position: 200% 0; }
+        }
+
+        @keyframes discoGlow {
+            0% { text-shadow: 0 0 15px #FF69B4; } /* Vibrant pink */
+            33% { text-shadow: 0 0 15px #FFC107; } /* Gold */
+            66% { text-shadow: 0 0 15px #C0C0C0; } /* Silver */
+            100% { text-shadow: 0 0 15px #FF69B4; }
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        #navratri-img {
+            width: 80vw;
+            max-width: 400px;
+            max-height: 50vh;
+            border-radius: 20px;
+            border: 3px solid #FFC107; /* Vibrant gold */
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); /* Stronger gold shadow */
+            animation: pulse 2s infinite, shadowGradient 5s infinite;
+            margin: 15px 0;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shadowGradient {
+            0% { box-shadow: 0 0 20px #FF69B4; } /* Vibrant pink */
+            33% { box-shadow: 0 0 20px #FFC107; } /* Gold */
+            66% { box-shadow: 0 0 20px #C0C0C0; } /* Silver */
+            100% { box-shadow: 0 0 20px #FF69B4; }
+        }
+
+        .content-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        #greeting {
+            font-size: 1.8em; /* Larger for visibility */
+            text-align: center;
+            margin: 15px 20px;
+            padding: 10px;
+            background: #FFFFFF; /* Solid white background for contrast */
+            border-radius: 15px;
+            box-shadow: 0 0 15px #FFC107; /* Stronger gold glow */
+            color: #600000; /* Darker maroon for better readability */
+            font-family: 'Georgia', serif;
+            position: relative;
+            z-index: 1;
+        }
+
+        #name-span {
+            display: inline-block;
+            font-size: 1.5em; /* Larger name highlight */
+            font-weight: bold; /* Bolder text */
+            background: #FFFFFF; /* White background */
+            padding: 2px 8px; /* Padding for separation */
+            border-radius: 5px;
+            box-shadow: 0 0 10px #FFC107; /* Subtle gold glow */
+            animation: colorNeon 3s infinite, gentleZoom 2s infinite alternate;
+            /* Removed blink to avoid text fading */
+        }
+
+        @keyframes colorNeon {
+            0% { color: #FF69B4; text-shadow: 0 0 15px #FF69B4; } /* Vibrant pink */
+            50% { color: #FFC107; text-shadow: 0 0 15px #FFC107; } /* Gold */
+            100% { color: #C0C0C0; text-shadow: 0 0 15px #C0C0C0; } /* Silver */
+        }
+
+        @keyframes gentleZoom {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        input, textarea {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px 0;
+            padding: 12px;
+            background: #FFF5E1; /* Light gold background */
+            border: 2px solid #FFC107; /* Vibrant gold */
+            color: #600000; /* Darker maroon */
+            border-radius: 10px;
+            box-shadow: 0 0 15px #FF69B4; /* Vibrant pink glow */
+            font-family: 'Georgia', serif;
+            text-align: center;
+        }
+
+        textarea {
+            height: 70px;
+        }
+
+        .gift-button {
+            margin: 15px 0;
+            padding: 12px 25px;
+            background: #FFC107; /* Vibrant gold */
+            color: #600000; /* Darker maroon */
+            text-decoration: none;
+            border-radius: 15px;
+            box-shadow: 0 0 15px #FF69B4; /* Vibrant pink glow */
+            animation: bounce 2s infinite, glowPulse 2s infinite;
+            font-size: 1.3em;
+            font-family: 'Georgia', serif;
+            display: inline-block;
+            text-align: center;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        #share-wa {
+            margin: 15px 0;
+            padding: 12px 25px;
+            background: #25D366; /* WhatsApp green */
+            color: white;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 1.3em;
+            box-shadow: 0 0 15px #25D366;
+            transition: box-shadow 0.3s;
+            font-family: 'Georgia', serif;
+        }
+
+        #share-wa:hover {
+            box-shadow: 0 0 25px #25D366;
+        }
+
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 4;
+            font-size: 1.5em;
+            animation: fall 10s linear forwards, rotate 5s linear infinite;
+        }
+
+        @keyframes fall {
+            to { top: 105vh; }
+        }
+
+        @keyframes rotate {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes sway {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(var(--sway)); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            #happy-navratri { font-size: 2em; margin: 15px 0; }
+            #greeting { font-size: 1.5em; margin: 10px 15px; }
+            #navratri-img { width: 90vw; max-height: 40vh; margin: 10px 0; }
+            #landing h1 { font-size: 2em; }
+            input, textarea, .gift-button, #share-wa { margin: 8px 0; padding: 10px; font-size: 1.1em; }
+            #name-span { font-size: 1.2em; padding: 1px 6px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="landing">
+        <h1>Divine Navratri Blessings Await You</h1>
+        <button id="reveal">Tap to Receive Blessings</button>
+    </div>
+    <div id="main">
+        <h2 id="happy-navratri">Jai Mata Di</h2>
+        <img src="Navratri.gif" alt="Navratri" id="navratri-img">
+        <div class="content-container">
+            <p id="greeting"></p>
+            <input type="text" id="name-input" placeholder="Enter your name">
+            <textarea id="msg-input" placeholder="Type your message"></textarea>
+            <!-- 🔥🔥 PASTE YOUR AMAZON AFFILIATE LINK BELOW 🔥🔥 -->
+            <a href="https://amzn.to/3KgAfuZ" target="_blank" class="gift-button">🎁 Divine Navratri Gifts 🎁 👇</a>
+            <button id="share-wa">📱 Share on WhatsApp</button>
+        </div>
+    </div>
+    <audio id="music" loop src="Navratri.mp3"></audio>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        // Parse URL params
+        const params = new URLSearchParams(window.location.search);
+        const defaultName = "Someone";
+        const defaultMsg = "aapko Navratri ki shubh kamnayein";
+        let name = params.get('name') || defaultName;
+        let msg = params.get('msg') || defaultMsg;
+
+        // Elements
+        const landing = document.getElementById('landing');
+        const main = document.getElementById('main');
+        const music = document.getElementById('music');
+        const reveal = document.getElementById('reveal');
+        const greeting = document.getElementById('greeting');
+        const nameInput = document.getElementById('name-input');
+        const msgInput = document.getElementById('msg-input');
+        const shareWa = document.getElementById('share-wa');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Prefill inputs
+        nameInput.value = name;
+        msgInput.value = msg;
+
+        // Update greeting
+        function updateGreeting() {
+            name = nameInput.value || defaultName;
+            msg = msgInput.value || defaultMsg;
+            greeting.innerHTML = `<span id="name-span">${name}</span> ki taraf se: ${msg}`;
+        }
+        updateGreeting();
+
+        // Input listeners
+        nameInput.oninput = updateGreeting;
+        msgInput.oninput = updateGreeting;
+
+        // Reveal button
+        reveal.onclick = () => {
+            landing.style.opacity = 0;
+            setTimeout(() => {
+                landing.style.display = 'none';
+                main.style.display = 'flex';
+                main.style.opacity = 1;
+                document.body.style.overflow = 'auto'; // Enable scrolling
+                music.play().catch(() => {}); // Handle autoplay policy
+                startAnimations();
+            }, 1000);
+        };
+
+        // WhatsApp share
+        shareWa.onclick = () => {
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?name=${encodeURIComponent(name)}&msg=${encodeURIComponent(msg)}`;
+            const shareText = `${name} ki taraf se: ${msg} `;
+            window.open(`https://wa.me/?text=${encodeURIComponent(shareText + shareUrl)}`, '_blank');
+        };
+
+        // Animations
+        let audioCtx, analyser, source, dataArray;
+        let particles = [];
+        const flowerEmojis = ['🌺', '💐', '🥀', '🌹', '🌸', '🌼', '🌻', '🪔', '🙏']; /* Religious emojis */
+        const balloonEmoji = '🪔'; /* Diya for religious theme */
+        let lastBurst = 0;
+
+        function startAnimations() {
+            // Audio setup
+            audioCtx = new AudioContext();
+            source = audioCtx.createMediaElementSource(music);
+            analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 256;
+            dataArray = new Uint8Array(analyser.frequencyBinCount);
+            source.connect(analyser);
+            analyser.connect(audioCtx.destination);
+
+            // Start loops
+            setInterval(createFlower, 2500); // Reduced density
+            setInterval(createBalloon, 4000);
+            requestAnimationFrame(animateParticles);
+        }
+
+        function createParticle(x, y, vx, vy, color, size, life, type) {
+            particles.push({x, y, vx, vy, color, size, life, age: 0, type});
+        }
+
+        function createBurst() {
+            const now = Date.now();
+            if (now - lastBurst < 1000) return;
+            lastBurst = now;
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            // Confetti
+            for (let i = 0; i < 15; i++) {
+                createParticle(x, y, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8, `hsl(${Math.random()*60 + 330},80%,60%)`, Math.random()*4+2, Math.random()*80+40, 'confetti'); /* Pink-red hues */
+            }
+            // Sparkles
+            for (let i = 0; i < 8; i++) {
+                createParticle(x, y, (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4, '#FFC107', Math.random()*2+1, 40, 'sparkle'); /* Vibrant gold */
+            }
+            // Fireworks
+            for (let i = 0; i < 20; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 4 + 2;
+                createParticle(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed, `hsl(${Math.random()*60 + 330},80%,60%)`, 2, 80, 'firework');
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Audio analysis
+            analyser.getByteFrequencyData(dataArray);
+            let bass = 0;
+            for (let i = 0; i < 10; i++) bass += dataArray[i];
+            bass /= 10;
+            if (bass > 100) createBurst(); // Threshold for beat
+
+            // Update and draw particles
+            particles = particles.filter(p => p.age < p.life);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.05; // Gentle gravity
+                p.age++;
+                const alpha = 1 - p.age / p.life;
+
+                ctx.beginPath();
+                if (p.type === 'confetti') {
+                    ctx.fillStyle = p.color;
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.age * 0.1);
+                    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                    ctx.restore();
+                } else if (p.type === 'sparkle') {
+                    ctx.fillStyle = `rgba(255,193,7,${alpha})`; /* Vibrant gold */
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                    ctx.fill();
+                } else if (p.type === 'firework') {
+                    ctx.fillStyle = `rgba(255,255,255,${alpha})`; /* White trail */
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
+                    ctx.fill();
+                }
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        function createFlower() {
+            const div = document.createElement('div');
+            div.className = 'particle';
+            div.textContent = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+            div.style.left = `${Math.random() * 100}vw`;
+            div.style.top = '-5vh';
+            div.style.fontSize = `${Math.random() * 1 + 1}em`;
+            div.style.animation += `, sway ${Math.random()*2 + 2}s ease-in-out infinite`;
+            div.style.setProperty('--sway', `${(Math.random() - 0.5) * 50}px`);
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 11000);
+        }
+
+        function createBalloon() {
+            const div = document.createElement('div');
+            div.className = 'particle';
+            div.textContent = balloonEmoji;
+            div.style.left = `${Math.random() * 100}vw`;
+            div.style.top = '-5vh';
+            div.style.fontSize = `${Math.random() * 2 + 1.5}em`;
+            div.style.filter = `hue-rotate(${Math.random() * 60 + 330}deg)`; /* Pink-red hues */
+            div.style.textShadow = `0 0 15px hsl(${Math.random()*60 + 330},80%,60%)`;
+            div.style.animation = `fall ${Math.random()*5 + 10}s linear forwards, flicker ${Math.random()+1}s infinite alternate`;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 16000);
+        }
+
+        // Resize canvas
+        window.onresize = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        };
+    </script>
+</body>
+</html>
