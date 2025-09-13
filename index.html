@@ -208,7 +208,7 @@
             display: inline-block;
             font-size: 1.2em;
             font-weight: normal;
-            background: #E0F7FA;
+            /* Removed background and related styling */
             padding: 1px 5px;
             border-radius: 3px;
             box-shadow: 0 0 5px #26A69A, 0 0 10px #AB47BC;
@@ -378,7 +378,7 @@
             <input type="text" id="name-input" placeholder="Type your Name">
             <textarea id="msg-input" placeholder="Type your Message"></textarea>
             <!-- 🔥🔥 PASTE YOUR AMAZON AFFILIATE LINK BELOW 🔥🔥 -->
-            <a href="https://amzn.to/3KgAfuZ" target="_blank" class="gift-button">Divine Navratri Gifts</a>
+            <a href="YOUR_AFFILIATE_LINK" target="_blank" class="gift-button">Divine Navratri Gifts</a>
             <button id="share-wa">Share on WhatsApp</button>
         </div>
     </div>
@@ -569,6 +569,19 @@
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         };
+
+        // Pause music when page is minimized or new link is opened
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                music.pause();
+            } else if (!landing.style.display && main.style.opacity == 1) {
+                music.play().catch(() => {});
+            }
+        });
+
+        window.addEventListener('beforeunload', () => {
+            music.pause();
+        });
     </script>
 </body>
 </html>
