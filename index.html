@@ -1,494 +1,479 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navratri Celebration</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Georgia', serif; /* Religious, elegant font */
-            color: #600000; /* Darker maroon for better contrast */
-        }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Navratri Celebration</title>
+<style>
+  :root{
+    --bg1:#fff0f5;
+    --bg2:#fff4e6;
+    --accent-maroon:#7a1226;
+    --accent-gold:#d4a017;
+    --accent-cyan:#00cfd8;
+  }
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased;overflow:hidden;}
+  .stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:18px;box-sizing:border-box;}
 
-        #landing {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(45deg, #FF69B4, #FF4040, #FFC107, #C0C0C0, #800000); /* Vibrant pink, red, gold, silver, maroon */
-            background-size: 400% 400%;
-            animation: gradientShift 10s ease infinite, zoom 5s infinite alternate;
-            transition: opacity 1s ease;
-            z-index: 2;
-            overflow: hidden;
-        }
+  /* --- Landing (first screen) --- */
+  #landing{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:20px;box-sizing:border-box;}
+  .landing-card{width:100%;max-width:980px;padding:26px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,0.95),rgba(255,250,245,0.98));box-shadow:0 12px 40px rgba(122,18,38,0.08);text-align:center;}
+  .landing-title{font-size:clamp(20px,4.8vw,44px);font-weight:800;color:var(--accent-maroon);background:linear-gradient(90deg,var(--accent-maroon),var(--accent-gold));-webkit-background-clip:text;color:transparent;}
+  .landing-sub{font-size:14px;color:#6b1020;margin-top:8px;}
+  .reveal-btn{margin-top:14px;padding:14px 28px;border-radius:999px;border:0;background:linear-gradient(90deg,var(--accent-maroon),var(--accent-gold));color:#fff;font-weight:800;cursor:pointer;box-shadow:0 10px 30px rgba(122,18,38,0.12);}
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+  /* --- Celebration (hidden until reveal) --- */
+  #celebration{position:fixed;inset:0;z-index:10;opacity:0;pointer-events:none;display:flex;align-items:center;justify-content:center;padding:18px;transition:opacity .6s ease;}
+  .card{width:100%;max-width:1100px;height:calc(100vh - 36px);border-radius:16px;padding:22px;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:12px;background:linear-gradient(180deg,rgba(255,250,250,0.92),rgba(255,249,242,0.98));box-shadow:0 14px 36px rgba(122,18,38,0.06);overflow:hidden;}
 
-        @keyframes zoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
+  .happy-text{font-weight:900;font-size:clamp(26px,5.5vw,64px);color:var(--accent-maroon);background:linear-gradient(90deg,var(--accent-maroon),var(--accent-gold));-webkit-background-clip:text;color:transparent;text-align:center;margin-top:6px;}
+  .gif-wrap{width:100%;display:flex;align-items:center;justify-content:center;padding:6px;box-sizing:border-box;}
+  img.navratri{width:clamp(300px,44vw,780px);max-height:60vh;object-fit:cover;border-radius:16px;border:3px solid rgba(212,160,23,0.08);box-shadow:0 24px 48px rgba(122,18,38,0.08);}
 
-        #landing h1 {
-            font-size: 2.5em;
-            text-align: center;
-            margin: 0 20px;
-            text-shadow: 0 0 15px #FFC107; /* Brighter gold glow */
-            font-family: 'Palatino Linotype', serif;
-        }
+  /* Greeting with no gap */
+  .greeting{margin-top:6px;padding:12px 18px;border-radius:12px;background:linear-gradient(90deg,rgba(255,240,244,0.85),rgba(255,250,236,0.95));display:inline-block;}
+  .greeting .message{font-weight:800;font-size:clamp(16px,3vw,26px);color:var(--accent-maroon);white-space:normal;line-height:1.3;}
+  .greeting .name{font-weight:900;background:linear-gradient(90deg,var(--accent-gold),var(--accent-maroon));-webkit-background-clip:text;color:transparent;padding:0;margin:0;}
+  .greeting .sep{display:inline;margin:0 4px;color:var(--accent-maroon);}
 
-        #reveal {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            background: #FFC107; /* Vibrant gold */
-            border: 2px solid #FF69B4; /* Vibrant pink */
-            color: #800000; /* Rich maroon */
-            cursor: pointer;
-            box-shadow: 0 0 15px #FF69B4, 0 0 25px #C0C0C0; /* Enhanced pink and silver glow */
-            animation: glowPulse 2s infinite;
-            border-radius: 10px;
-            font-family: 'Georgia', serif;
-        }
+  /* Controls */
+  .controls{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:8px;width:100%;}
+  .input{min-width:200px;max-width:560px;width:calc(40vw);padding:12px 14px;border-radius:12px;border:1px solid rgba(122,18,38,0.06);background:#fff;color:var(--accent-maroon);font-size:1.05rem;outline:none;box-shadow:0 8px 20px rgba(0,0,0,0.04);text-align:center;}
+  .input::placeholder{color:#a34e53;opacity:0.7;}
+  .controls-row{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:8px;}
+  .gift-button{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:999px;background:linear-gradient(90deg,var(--accent-maroon),var(--accent-gold));color:#fff;font-weight:800;text-decoration:none;box-shadow:0 10px 30px rgba(122,18,38,0.12);font-size:1.05rem;}
+  .gift-button.disabled{opacity:0.56;pointer-events:none;box-shadow:none;}
+  .wa-button{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;background:#075e54;color:#fff;font-weight:800;text-decoration:none;box-shadow:0 10px 28px rgba(7,94,84,0.18);font-size:1.05rem;}
 
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 15px #FF69B4, 0 0 25px #C0C0C0; }
-            50% { box-shadow: 0 0 25px #FF69B4, 0 0 35px #C0C0C0; }
-            100% { box-shadow: 0 0 15px #FF69B4, 0 0 25px #C0C0C0; }
-        }
+  /* Mute button (top-right) */
+  .mute-btn{position:fixed;top:12px;right:12px;z-index:100;border:0;background:#fff;border-radius:999px;padding:8px;box-shadow:0 6px 18px rgba(0,0,0,0.12);cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;}
 
-        #main {
-            position: relative;
-            width: 100vw;
-            min-height: 100vh; /* Allow scrolling */
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            background: linear-gradient(to bottom, #FFEBEE, #FFF5E1); /* Vibrant pink to light gold */
-            transition: opacity 1s ease;
-            opacity: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            z-index: 1;
-        }
+  /* Canvas & falling layers */
+  canvas#fx{position:absolute;inset:0;width:100%;height:100%;z-index:5;pointer-events:none;}
+  .falling-layer,.balloon-layer{position:absolute;inset:0;pointer-events:none;z-index:7;overflow:hidden;}
 
-        #happy-navratri {
-            font-size: 2.5em;
-            margin: 20px 0 15px;
-            text-shadow: 0 0 15px #FFC107; /* Brighter gold glow */
-            background: linear-gradient(to right, #FF69B4, #FFC107, #C0C0C0); /* Vibrant pink, gold, silver */
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: bgmove 5s linear infinite, discoGlow 2s infinite, blink 1s infinite alternate;
-            font-family: 'Palatino Linotype', serif;
-        }
-
-        @keyframes bgmove {
-            to { background-position: 200% 0; }
-        }
-
-        @keyframes discoGlow {
-            0% { text-shadow: 0 0 15px #FF69B4; } /* Vibrant pink */
-            33% { text-shadow: 0 0 15px #FFC107; } /* Gold */
-            66% { text-shadow: 0 0 15px #C0C0C0; } /* Silver */
-            100% { text-shadow: 0 0 15px #FF69B4; }
-        }
-
-        @keyframes blink {
-            0% { opacity: 1; }
-            100% { opacity: 0.8; }
-        }
-
-        #navratri-img {
-            width: 80vw;
-            max-width: 400px;
-            max-height: 50vh;
-            border-radius: 20px;
-            border: 3px solid #FFC107; /* Vibrant gold */
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.7); /* Stronger gold shadow */
-            animation: pulse 2s infinite, shadowGradient 5s infinite;
-            margin: 15px 0;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        @keyframes shadowGradient {
-            0% { box-shadow: 0 0 20px #FF69B4; } /* Vibrant pink */
-            33% { box-shadow: 0 0 20px #FFC107; } /* Gold */
-            66% { box-shadow: 0 0 20px #C0C0C0; } /* Silver */
-            100% { box-shadow: 0 0 20px #FF69B4; }
-        }
-
-        .content-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 90%;
-            max-width: 500px;
-        }
-
-        #greeting {
-            font-size: 1.8em; /* Larger for visibility */
-            text-align: center;
-            margin: 15px 20px;
-            padding: 10px;
-            background: #FFFFFF; /* Solid white background for contrast */
-            border-radius: 15px;
-            box-shadow: 0 0 15px #FFC107; /* Stronger gold glow */
-            color: #600000; /* Darker maroon for better readability */
-            font-family: 'Georgia', serif;
-            position: relative;
-            z-index: 1;
-        }
-
-        #name-span {
-            display: inline-block;
-            font-size: 1.2em; /* Reduced size for elegance */
-            font-weight: normal; /* Removed bold */
-            background: #FFFFFF; /* White background */
-            padding: 1px 5px; /* Subtle padding */
-            border-radius: 3px;
-            box-shadow: 0 0 5px #FFC107; /* Subtle gold glow */
-            animation: colorNeon 3s infinite, gentleZoom 2s infinite alternate;
-            /* Removed blink to avoid text fading */
-        }
-
-        @keyframes colorNeon {
-            0% { color: #FF69B4; text-shadow: 0 0 15px #FF69B4; } /* Vibrant pink */
-            50% { color: #FFC107; text-shadow: 0 0 15px #FFC107; } /* Gold */
-            100% { color: #C0C0C0; text-shadow: 0 0 15px #C0C0C0; } /* Silver */
-        }
-
-        @keyframes gentleZoom {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1); }
-        }
-
-        input, textarea {
-            width: 100%;
-            max-width: 300px;
-            margin: 10px 0;
-            padding: 12px;
-            background: #FFF5E1; /* Light gold background */
-            border: 2px solid #FFC107; /* Vibrant gold */
-            color: #600000; /* Darker maroon */
-            border-radius: 10px;
-            box-shadow: 0 0 15px #FF69B4; /* Vibrant pink glow */
-            font-family: 'Georgia', serif;
-            text-align: center;
-        }
-
-        textarea {
-            height: 70px;
-        }
-
-        .gift-button {
-            margin: 15px 0;
-            padding: 12px 25px;
-            background: #FFC107; /* Vibrant gold */
-            color: #600000; /* Darker maroon */
-            text-decoration: none;
-            border-radius: 15px;
-            box-shadow: 0 0 15px #FF69B4; /* Vibrant pink glow */
-            animation: bounce 2s infinite, glowPulse 2s infinite;
-            font-size: 1.3em;
-            font-family: 'Georgia', serif;
-            display: inline-block;
-            text-align: center;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        #share-wa {
-            margin: 15px 0;
-            padding: 12px 25px;
-            background: #25D366; /* WhatsApp green */
-            color: white;
-            border: none;
-            border-radius: 15px;
-            cursor: pointer;
-            font-size: 1.3em;
-            box-shadow: 0 0 15px #25D366;
-            transition: box-shadow 0.3s;
-            font-family: 'Georgia', serif;
-        }
-
-        #share-wa:hover {
-            box-shadow: 0 0 25px #25D366;
-        }
-
-        #canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            pointer-events: none;
-            z-index: 3;
-        }
-
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 4;
-            font-size: 1.5em;
-            animation: fall 10s linear forwards, rotate 5s linear infinite;
-        }
-
-        @keyframes fall {
-            to { top: 105vh; }
-        }
-
-        @keyframes rotate {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes sway {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(var(--sway)); }
-        }
-
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            #happy-navratri { font-size: 2em; margin: 15px 0; }
-            #greeting { font-size: 1.5em; margin: 10px 15px; }
-            #navratri-img { width: 90vw; max-height: 40vh; margin: 10px 0; }
-            #landing h1 { font-size: 2em; }
-            input, textarea, .gift-button, #share-wa { margin: 8px 0; padding: 10px; font-size: 1.1em; }
-            #name-span { font-size: 1em; padding: 1px 4px; }
-        }
-    </style>
+  /* Responsive tweaks */
+  @media (max-width:640px){
+    .input{width:88%;}
+    .happy-text{font-size:28px;}
+    img.navratri{width:86%;max-height:48vh;}
+    .greeting .message{font-size:16px;}
+  }
+</style>
 </head>
 <body>
-    <div id="landing">
-        <h1>Divine Navratri Blessings Await You</h1>
-        <button id="reveal">Tap to Receive Blessings</button>
+<div class="stage">
+
+  <!-- Landing screen -->
+  <div id="landing" role="dialog" aria-modal="true" aria-label="Landing">
+    <div class="landing-card" role="group" aria-labelledby="landingTitle">
+      <div id="landingTitle" class="landing-title">Special Navratri message waiting for you</div>
+      <div class="landing-sub">Click below to reveal the Navratri celebration</div>
+      <button id="revealBtn" class="reveal-btn" aria-label="Click to reveal">Click to Reveal</button>
+      <div class="landing-sub" style="font-size:12px;margin-top:10px;color:#7a1226;">(Music & celebration start after you click)</div>
     </div>
-    <div id="main">
-        <h2 id="happy-navratri">Jai Mata Di</h2>
-        <img src="Navratri.gif" alt="Navratri" id="navratri-img">
-        <div class="content-container">
-            <p id="greeting"></p>
-            <input type="text" id="name-input" placeholder="Type your Name">
-            <textarea id="msg-input" placeholder="Type your Message"></textarea>
-            <!-- 🔥🔥 PASTE YOUR AMAZON AFFILIATE LINK BELOW 🔥🔥 -->
-            <a href="https://amzn.to/3KgAfuZ" target="_blank" class="gift-button">🎁 Divine Navratri Gifts 🎁 👇</a>
-            <button id="share-wa">📱 Share on WhatsApp</button>
+  </div>
+
+  <!-- Celebration screen -->
+  <main id="celebration" aria-hidden="true">
+    <div class="card" role="main">
+      <button id="muteBtn" class="mute-btn" aria-label="Mute or unmute audio" title="Mute / Unmute">
+        <!-- Speaker icon (SVG) -->
+        <svg id="muteIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 9v6h4l5 4V5L9 9H5z" fill="#7a1226"></path>
+        </svg>
+      </button>
+
+      <div class="happy-text">Happy Navratri</div>
+
+      <div class="gif-wrap">
+        <img id="navGif" class="navratri" src="Navratri.gif" alt="Navratri image (place Navratri.gif here)" onerror="this.style.display='none'">
+      </div>
+
+      <div class="greeting" role="status" aria-live="polite">
+        <div class="message">
+          <span id="nameEl" class="name">Someone</span><span class="sep"> ki taraf se </span><span id="msgEl">aapko Navratri ki bahut bahut badhai</span>
         </div>
+      </div>
+
+      <div class="controls" aria-label="Inputs">
+        <input id="nameInput" class="input" placeholder="Enter your name" />
+        <input id="msgInput" class="input" placeholder="Type your message" />
+      </div>
+
+      <div class="controls-row" aria-label="Actions">
+        <!-- Put your affiliate link directly in href below.
+             Example: href="https://www.amazon.in/your-product?tag=yourtag-21" -->
+        <a id="giftBtn" class="gift-button" href="https://amzn.to/3KgAfuZ" target="_blank" rel="noopener">🎁 Special Navratri Gifts 🎁</a>
+
+        <a id="waShare" class="wa-button" href="#" target="_blank" rel="noopener">Share</a>
+      </div>
+
+      <canvas id="fx"></canvas>
+      <div id="flowers" class="falling-layer" aria-hidden="true"></div>
+      <div id="balloons" class="balloon-layer" aria-hidden="true"></div>
     </div>
-    <audio id="music" loop src="Navratri.mp3"></audio>
-    <canvas id="canvas"></canvas>
+  </main>
 
-    <script>
-        // Parse URL params
-        const params = new URLSearchParams(window.location.search);
-        const defaultName = "Type your name";
-        const defaultMsg = "aapko Navratri ki shubh kamnayein";
-        let name = params.get('name') || defaultName;
-        let msg = params.get('msg') || defaultMsg;
+</div>
 
-        // Elements
-        const landing = document.getElementById('landing');
-        const main = document.getElementById('main');
-        const music = document.getElementById('music');
-        const reveal = document.getElementById('reveal');
-        const greeting = document.getElementById('greeting');
-        const nameInput = document.getElementById('name-input');
-        const msgInput = document.getElementById('msg-input');
-        const shareWa = document.getElementById('share-wa');
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
+<!-- Local audio file -->
+<audio id="bgAudio" src="Navratri.mp3" preload="auto" loop crossorigin="anonymous"></audio>
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+<script>
+/* Full functional Navratri page
+   - Landing reveals celebration
+   - Greeting shows URL ?name & ?msg automatically (if present) but inputs keep placeholders
+   - Inputs update the greeting preview while typing
+   - Share opens WhatsApp (or navigator.share if available) and then clears inputs (placeholders remain)
+   - Gift button opens href (enable by replacing YOUR_AFFILIATE_LINK)
+   - Mute/unmute button and audio pauses when tab hidden (minimized)
+   - Confetti/flowers/balloons running (reduced density)
+*/
 
-        // Prefill inputs with URL params or defaults
-        nameInput.value = name;
-        msgInput.value = msg;
+const qs = s => document.querySelector(s);
+const landing = qs('#landing');
+const revealBtn = qs('#revealBtn');
+const celebration = qs('#celebration');
+const audioEl = qs('#bgAudio');
+const muteBtn = qs('#muteBtn');
+const muteIcon = qs('#muteIcon');
 
-        // Update greeting
-        function updateGreeting() {
-            name = nameInput.value || defaultName;
-            msg = msgInput.value || defaultMsg;
-            greeting.innerHTML = `<span id="name-span">${name}</span> ki taraf se: ${msg}`;
-        }
-        updateGreeting(); // Display default greeting on load
+const nameEl = qs('#nameEl');
+const msgEl = qs('#msgEl');
 
-        // Input listeners
-        nameInput.oninput = updateGreeting;
-        msgInput.oninput = updateGreeting;
+const nameInput = qs('#nameInput');
+const msgInput = qs('#msgInput');
+const giftBtn = qs('#giftBtn');
+const waShare = qs('#waShare');
 
-        // Reveal button
-        reveal.onclick = () => {
-            landing.style.opacity = 0;
-            setTimeout(() => {
-                landing.style.display = 'none';
-                main.style.display = 'flex';
-                main.style.opacity = 1;
-                document.body.style.overflow = 'auto'; // Enable scrolling
-                music.play().catch(() => {}); // Handle autoplay policy
-                startAnimations();
-            }, 1000);
-        };
+const canvas = qs('#fx');
+const ctx = canvas.getContext('2d');
+const flowersLayer = qs('#flowers');
+const balloonsLayer = qs('#balloons');
 
-        // WhatsApp share with name and msg parameters
-        shareWa.onclick = () => {
-            const baseUrl = window.location.origin + window.location.pathname;
-            name = nameInput.value || defaultName;
-            msg = msgInput.value || defaultMsg;
-            const shareUrl = `${baseUrl}?name=${encodeURIComponent(name)}&msg=${encodeURIComponent(msg)}`;
-            const shareText = `${name} ki taraf se: ${msg} `;
-            window.open(`https://wa.me/?text=${encodeURIComponent(shareText + shareUrl)}`, '_blank');
-        };
+let cw, ch; function resizeCanvas(){ cw = canvas.width = innerWidth; ch = canvas.height = innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
 
-        // Animations
-        let audioCtx, analyser, source, dataArray;
-        let particles = [];
-        const flowerEmojis = ['🌺', '💐', '🥀', '🌹', '🌸', '🌼', '🌻', '🪔', '🙏']; /* Religious emojis */
-        const balloonEmoji = '🪔'; /* Diya for religious theme */
-        let lastBurst = 0;
+/* Defaults and current greeting */
+const DEFAULT_NAME = 'Someone';
+const DEFAULT_MSG = 'aapko Navratri ki bahut bahut badhai';
+let current = { name: DEFAULT_NAME, msg: DEFAULT_MSG };
 
-        function startAnimations() {
-            // Audio setup
-            audioCtx = new AudioContext();
-            source = audioCtx.createMediaElementSource(music);
-            analyser = audioCtx.createAnalyser();
-            analyser.fftSize = 256;
-            dataArray = new Uint8Array(analyser.frequencyBinCount);
-            source.connect(analyser);
-            analyser.connect(audioCtx.destination);
+/* Init from URL (show greeting on page if params exist, but DO NOT replace placeholders) */
+(function initFromURL(){
+  const p = new URLSearchParams(window.location.search);
+  const pName = (p.get('name') || '').trim();
+  const pMsg = (p.get('msg') || '').trim();
+  if(pName) current.name = decodeURIComponent(pName);
+  if(pMsg) current.msg = decodeURIComponent(pMsg);
+  nameEl.textContent = current.name;
+  msgEl.textContent = current.msg;
+  updateWaLink();
+})();
 
-            // Start loops
-            setInterval(createFlower, 2500); // Reduced density
-            setInterval(createBalloon, 4000);
-            requestAnimationFrame(animateParticles);
-        }
+/* Update greeting preview (live) but inputs always keep placeholders */
+function updateGreeting(){
+  const nTyped = (nameInput.value || '').trim();
+  const mTyped = (msgInput.value || '').trim();
+  // If user typed something, show that; otherwise fall back to current (from URL or default)
+  const showName = nTyped || current.name || DEFAULT_NAME;
+  const showMsg = mTyped || current.msg || DEFAULT_MSG;
+  nameEl.textContent = showName;
+  msgEl.textContent = showMsg;
+  updateWaLinkWith(showName, showMsg);
+}
+nameInput.addEventListener('input', updateGreeting);
+msgInput.addEventListener('input', updateGreeting);
 
-        function createParticle(x, y, vx, vy, color, size, life, type) {
-            particles.push({x, y, vx, vy, color, size, life, age: 0, type});
-        }
+/* Build WhatsApp share link or use Web Share API when available */
+function updateWaLink(){
+  updateWaLinkWith(current.name, current.msg);
+}
+function updateWaLinkWith(name, msg){
+  const n = encodeURIComponent(name || DEFAULT_NAME);
+  const m = encodeURIComponent(msg || DEFAULT_MSG);
+  const pageUrl = `${location.origin}${location.pathname}?name=${n}&msg=${m}`;
+  const text = `${name} ki taraf se: ${msg} - ${pageUrl}`;
+  waShare.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+}
 
-        function createBurst() {
-            const now = Date.now();
-            if (now - lastBurst < 1000) return;
-            lastBurst = now;
-            const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height;
-            // Confetti
-            for (let i = 0; i < 15; i++) {
-                createParticle(x, y, (Math.random() - 0.5) * 8, (Math.random() - 0.5) * 8, `hsl(${Math.random()*60 + 330},80%,60%)`, Math.random()*4+2, Math.random()*80+40, 'confetti'); /* Pink-red hues */
-            }
-            // Sparkles
-            for (let i = 0; i < 8; i++) {
-                createParticle(x, y, (Math.random() - 0.5) * 4, (Math.random() - 0.5) * 4, '#FFC107', Math.random()*2+1, 40, 'sparkle'); /* Vibrant gold */
-            }
-            // Fireworks
-            for (let i = 0; i < 20; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const speed = Math.random() * 4 + 2;
-                createParticle(x, y, Math.cos(angle) * speed, Math.sin(angle) * speed, `hsl(${Math.random()*60 + 330},80%,60%)`, 2, 80, 'firework');
-            }
-        }
+/* Enable gift button only if a real link is present in href */
+(function initGift(){
+  const href = (giftBtn.getAttribute('href')||'').trim();
+  const enabled = href && !href.includes('YOUR_AFFILIATE_LINK') && (href.startsWith('http://') || href.startsWith('https://'));
+  if(!enabled){
+    giftBtn.classList.add('disabled');
+    giftBtn.addEventListener('click', (e)=>{ e.preventDefault(); });
+  } else {
+    giftBtn.classList.remove('disabled');
+  }
+})();
 
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+/* Reveal button: play audio (user gesture), show celebration, start effects */
+let audioStarted = false;
+revealBtn.addEventListener('click', async ()=>{
+  try{ await audioEl.play(); audioStarted = true; } catch(e){ /* autoplay blocked if no gesture - click provides it */ }
+  landing.style.transition = 'opacity .6s ease, transform .6s ease';
+  landing.style.opacity = '0';
+  landing.style.transform = 'scale(1.02)';
+  setTimeout(()=>{ landing.style.display='none'; landing.setAttribute('aria-hidden','true'); }, 650);
 
-            // Audio analysis
-            analyser.getByteFrequencyData(dataArray);
-            let bass = 0;
-            for (let i = 0; i < 10; i++) bass += dataArray[i];
-            bass /= 10;
-            if (bass > 100) createBurst(); // Threshold for beat
+  celebration.style.pointerEvents = 'auto';
+  celebration.style.opacity = '1';
+  celebration.setAttribute('aria-hidden','false');
 
-            // Update and draw particles
-            particles = particles.filter(p => p.age < p.life);
-            particles.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.05; // Gentle gravity
-                p.age++;
-                const alpha = 1 - p.age / p.life;
+  // start visuals
+  startFallingFlowers();
+  startBalloons();
+  startConfettiLoop();
+});
 
-                ctx.beginPath();
-                if (p.type === 'confetti') {
-                    ctx.fillStyle = p.color;
-                    ctx.save();
-                    ctx.translate(p.x, p.y);
-                    ctx.rotate(p.age * 0.1);
-                    ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
-                    ctx.restore();
-                } else if (p.type === 'sparkle') {
-                    ctx.fillStyle = `rgba(255,193,7,${alpha})`; /* Vibrant gold */
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                    ctx.fill();
-                } else if (p.type === 'firework') {
-                    ctx.fillStyle = `rgba(255,255,255,${alpha})`; /* White trail */
-                    ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                    ctx.fill();
-                }
-            });
+/* Mute / Unmute button */
+function setMuteUI(isMuted){
+  if(isMuted){
+    // show muted icon
+    muteIcon.innerHTML = '<path d="M11 5v14l-6-6H2V13h3l6-6z" fill="#7a1226"></path><path d="M19 8l-1.4 1.4L19 10.8 21.2 8.6 19 6.4 17.6 7.8 19 9.2z" fill="#7a1226"></path>';
+  }else{
+    // show speaker icon
+    muteIcon.innerHTML = '<path d="M5 9v6h4l5 4V5L9 9H5z" fill="#7a1226"></path>';
+  }
+}
+muteBtn.addEventListener('click', ()=>{
+  audioEl.muted = !audioEl.muted;
+  setMuteUI(audioEl.muted);
+});
 
-            requestAnimationFrame(animateParticles);
-        }
+/* Pause audio when tab is hidden (minimized) and resume when visible (if it was playing and not muted) */
+let wasPlayingBeforeHidden = false;
+document.addEventListener('visibilitychange', ()=>{
+  if(document.hidden){
+    if(!audioEl.paused){
+      audioEl.pause();
+      wasPlayingBeforeHidden = true;
+    } else {
+      wasPlayingBeforeHidden = false;
+    }
+  } else {
+    if(wasPlayingBeforeHidden && audioStarted && !audioEl.muted){
+      audioEl.play().catch(()=>{});
+    }
+    wasPlayingBeforeHidden = false;
+  }
+});
 
-        function createFlower() {
-            const div = document.createElement('div');
-            div.className = 'particle';
-            div.textContent = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
-            div.style.left = `${Math.random() * 100}vw`;
-            div.style.top = '-5vh';
-            div.style.fontSize = `${Math.random() * 1 + 1}em`;
-            div.style.animation += `, sway ${Math.random()*2 + 2}s ease-in-out infinite`;
-            div.style.setProperty('--sway', `${(Math.random() - 0.5) * 50}px`);
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 11000);
-        }
+/* Share button click behavior:
+   Prefer navigator.share on supported devices; otherwise open waShare.href
+   After sharing, clear input fields but keep greeting displayed (preview remains)
+*/
+waShare.addEventListener('click', async (e)=>{
+  e.preventDefault();
+  const nameTyped = (nameInput.value||'').trim();
+  const msgTyped = (msgInput.value||'').trim();
+  const nameToShare = nameTyped || current.name || DEFAULT_NAME;
+  const msgToShare = msgTyped || current.msg || DEFAULT_MSG;
+  const shareText = `${nameToShare} ki taraf se: ${msgToShare}\n${location.origin}${location.pathname}?name=${encodeURIComponent(nameToShare)}&msg=${encodeURIComponent(msgToShare)}`;
 
-        function createBalloon() {
-            const div = document.createElement('div');
-            div.className = 'particle';
-            div.textContent = balloonEmoji;
-            div.style.left = `${Math.random() * 100}vw`;
-            div.style.top = '-5vh';
-            div.style.fontSize = `${Math.random() * 2 + 1.5}em`;
-            div.style.filter = `hue-rotate(${Math.random() * 60 + 330}deg)`; /* Pink-red hues */
-            div.style.textShadow = `0 0 15px hsl(${Math.random()*60 + 330},80%,60%)`;
-            div.style.animation = `fall ${Math.random()*5 + 10}s linear forwards, flicker ${Math.random()+1}s infinite alternate`;
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 16000);
-        }
+  if(navigator.share){
+    try{
+      await navigator.share({ title: 'Happy Navratri', text: shareText, url: '' });
+    }catch(err){}
+  } else {
+    // open WhatsApp link in new tab
+    const wa = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(wa, '_blank');
+  }
 
-        // Resize canvas
-        window.onresize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-    </script>
+  // After sharing: clear input fields but keep greeting preview as the shared text
+  nameInput.value = '';
+  msgInput.value = '';
+  // Keep greeting showing the shared values:
+  nameEl.textContent = nameToShare;
+  msgEl.textContent = msgToShare;
+  // rebuild waShare href for the new values
+  updateWaLinkWith(nameToShare, msgToShare);
+});
+
+/* ----------------- Simple visual effects (flowers/balloons/confetti) ----------------- */
+/* Flowers (emoji-like) - lower density */
+const FLOWERS = ["🌺","🌸","🌼","🌹","🌻"];
+function startFallingFlowers(){
+  const base = Math.max(6, Math.floor(innerWidth/140));
+  for(let i=0;i<Math.floor(base*0.25);i++) createFlower();
+  setInterval(()=>{ if(Math.random()>0.6) createFlower(); }, 1000);
+}
+function createFlower(){
+  const el = document.createElement('div');
+  el.style.position = 'absolute';
+  el.style.zIndex = 12;
+  const startX = Math.floor(Math.random()*(innerWidth*0.75))+innerWidth*0.125;
+  el.style.left = startX + 'px';
+  el.style.top = (-30 + Math.random()*-60) + 'px';
+  el.style.fontSize = (Math.random()*14 + 16) + 'px';
+  el.style.willChange = 'transform,opacity';
+  el.textContent = FLOWERS[Math.floor(Math.random()*FLOWERS.length)];
+  flowersLayer.appendChild(el);
+
+  const duration = Math.random()*5000 + 4200;
+  const endY = innerHeight*0.62 + Math.random()*(innerHeight*0.22);
+  const start = performance.now();
+  const rot = Math.random()*720 - 360;
+  function frame(t){
+    const p = Math.min(1,(t-start)/duration);
+    const sway = Math.sin(p*Math.PI*2*(Math.random()*1.2+0.6))*40;
+    const x = startX + sway;
+    const y = -40 + p*(endY + Math.random()*60);
+    el.style.transform = `translate(${x-startX}px, ${y}px) rotate(${rot*p}deg)`;
+    el.style.opacity = 1 - p*0.95;
+    if(p < 1) requestAnimationFrame(frame);
+    else el.remove();
+  }
+  requestAnimationFrame(frame);
+}
+
+/* Balloons - small and slow */
+function startBalloons(){
+  const bCount = Math.max(5, Math.floor(innerWidth/220));
+  for(let i=0;i<bCount;i++) createBalloon();
+  setInterval(()=>{ if(Math.random()>0.5) createBalloon(); }, 2600);
+}
+function createBalloon(){
+  const size = Math.floor(Math.random()*40 + 20);
+  const el = document.createElement('div');
+  el.style.position='absolute'; el.style.zIndex='11';
+  const startX = Math.floor(Math.random()* (innerWidth - 40));
+  el.style.left = startX + 'px';
+  el.style.top = (-size - 10) + 'px';
+  el.style.width = size + 'px';
+  el.style.height = Math.round(size*1.18) + 'px';
+  el.style.borderRadius='50%';
+  el.style.pointerEvents='none';
+  el.style.background = `radial-gradient(circle, ${getRandomNeon()}, ${getRandomNeon(0.45)})`;
+  el.style.boxShadow = `0 8px 18px rgba(0,0,0,0.12)`;
+  balloonsLayer.appendChild(el);
+
+  const stick = document.createElement('div');
+  stick.style.position='absolute';
+  stick.style.left=(size/2-1)+'px'; stick.style.top=(Math.round(size*1.18))+'px';
+  stick.style.width='2px'; stick.style.height=Math.max(18,size*0.6)+'px'; stick.style.background='rgba(0,0,0,0.06)';
+  el.appendChild(stick);
+
+  const duration = Math.random()*8000 + 7000;
+  const driftX = Math.random()*240 - 120;
+  const start = performance.now();
+  function frame(t){
+    const p = Math.min(1,(t-start)/duration);
+    const x = startX + driftX*p + Math.sin(p*Math.PI*3)*10;
+    const y = -size - 10 + p*(innerHeight + size + 80);
+    el.style.transform = `translate(${x-startX}px, ${y}px) rotate(${Math.sin(p*6)*10}deg)`;
+    if(p < 1) requestAnimationFrame(frame);
+    else el.remove();
+  }
+  requestAnimationFrame(frame);
+}
+function getRandomNeon(opacity){
+  const pool = ['#ff4da6','#ff2d68','#ffd166','#ff9aa2','#b3003b','#ffc857'];
+  const c = pool[Math.floor(Math.random()*pool.length)];
+  if(opacity){
+    const r = parseInt(c.substr(1,2),16), g = parseInt(c.substr(3,2),16), b = parseInt(c.substr(5,2),16);
+    return `rgba(${r},${g},${b},${opacity})`;
+  }
+  return c;
+}
+
+/* Simple confetti particles for bursts */
+let particles = [];
+class Particle {
+  constructor(x,y,vx,vy,size,color,life,rect=false){ Object.assign(this,{x,y,vx,vy,size,color,life,age:0,rect}); }
+  update(){ this.vy += 0.06; this.x += this.vx; this.y += this.vy; this.age += 1; }
+  draw(ctx){
+    ctx.save();
+    ctx.globalAlpha = Math.max(0,1 - this.age/this.life);
+    ctx.fillStyle = this.color;
+    if(this.rect) ctx.fillRect(this.x - this.size/2, this.y - this.size/2, this.size, this.size);
+    else { ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); }
+    ctx.restore();
+  }
+}
+function spawnBurst(x,y,intensity){
+  const colors = [getCSS('--accent-maroon','#7a1226'), getCSS('--accent-gold','#d4a017'), '#ffd6e1', '#fff6d0'];
+  const sparks = Math.floor(10*intensity);
+  for(let i=0;i<sparks;i++){
+    const angle = Math.random()*Math.PI*2;
+    const speed = (Math.random()*4+1)*(0.7+intensity);
+    particles.push(new Particle(x,y,Math.cos(angle)*speed,Math.sin(angle)*speed,Math.random()*2+1,colors[Math.floor(Math.random()*colors.length)],Math.random()*60+40, Math.random()>0.5));
+  }
+}
+function getCSS(varName, fallback){ try{ const v = getComputedStyle(document.documentElement).getPropertyValue(varName).trim(); return v||fallback; }catch(e){return fallback;} }
+
+(function confettiLoop(){
+  ctx.clearRect(0,0,cw,ch);
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
+    p.update();
+    p.draw(ctx);
+    if(p.age > p.life || p.y>ch+60) particles.splice(i,1);
+  }
+  requestAnimationFrame(confettiLoop);
+})();
+
+/* Optional: small timed bursts (also audio-reactive handled earlier in heavier code) */
+function startConfettiLoop(){ setInterval(()=>{
+  const x = Math.random()*innerWidth, y = innerHeight*0.3 + Math.random()*80;
+  spawnBurst(x,y, 0.9 + Math.random()*1.6);
+}, 2000); }
+
+/* helper: audio-reactive bursts (light) using Analyser */
+let audioCtx, analyser, srcNode, dataArray;
+function startAudioEffects(audioEl){
+  if(window._navAudioStarted) return; window._navAudioStarted = true;
+  try{
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+    srcNode = audioCtx.createMediaElementSource(audioEl);
+    srcNode.connect(analyser);
+    analyser.connect(audioCtx.destination);
+
+    let last = performance.now(), acc = 0;
+    (function loop(t){
+      const dt = Math.min(60,t-last)/16; last = t;
+      analyser.getByteFrequencyData(dataArray);
+      let low=0; const cutoff = Math.floor(dataArray.length*0.12);
+      for(let i=0;i<cutoff;i++) low += dataArray[i];
+      const avg = low/ (cutoff||1) / 255;
+      acc += avg;
+      if(acc > 1.6){
+        const rect = qs('#navGif')?.getBoundingClientRect();
+        const x = rect ? rect.left + rect.width*0.5 + (Math.random()-0.5)*rect.width*0.4 : Math.random()*cw;
+        const y = rect ? rect.top + Math.random()*rect.height*0.2 : Math.random()*ch*0.4;
+        spawnBurst(x,y, Math.min(3,1+avg*6));
+        acc = 0;
+      } else if(avg > 0.08 && Math.random() < 0.03 + avg*0.6){
+        const rect = qs('#navGif')?.getBoundingClientRect();
+        const x = rect ? rect.left + rect.width*0.5 + (Math.random()-0.5)*rect.width*0.4 : Math.random()*cw;
+        const y = rect ? rect.top + Math.random()*rect.height*0.2 : Math.random()*ch*0.4;
+        spawnBurst(x,y, Math.max(0.8, avg*2.4));
+      }
+      requestAnimationFrame(loop);
+    })(performance.now());
+  }catch(e){}
+}
+
+/* Accessibility: Enter reveals */
+document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && landing && landing.style.display!=='none') revealBtn.click(); });
+
+/* Ensure mute UI initial */
+setMuteUI(false);
+
+/* Prevent scroll on touch */
+window.addEventListener('touchmove', e=>{ if(document.body) e.preventDefault(); }, {passive:false});
+
+/* --- Helper to play audio on user gesture from reveal: startAudioEffects called after audio play --- */
+revealBtn.addEventListener('click', ()=>{ startAudioEffects(audioEl); });
+
+</script>
 </body>
 </html>
